@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+'''
+@Time    : 2018/8/9 11:19
+@Author  : Negen
+@Site    :
+@File    : connectES.py
+@Software: PyCharm
+'''
+
+from gensim.models import word2vec
+import logging
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',level=logging.INFO)
+sentences = word2vec.Text8Corpus('/home/Negen/zhidaoDATA/zhidao.txt')
+
+model = word2vec.Word2Vec(sentences, sg=1, size=100,  window=5,  min_count=5,  negative=3, sample=0.001, hs=1, workers=4)
+model.save('zhidaomodel.model')
+model.save_word2vec_format('zhidaomodel.model.bin',binary=True)
+
+
+
+参数解释：
+
+1.sg=1是skip-gram算法，对低频词敏感；默认sg=0为CBOW算法。
+
+2.size是输出词向量的维数，值太小会导致词映射因为冲突而影响结果，值太大则会耗内存并使算法计算变慢，一般值取为100到200之间。
+
+3.window是句子中当前词与目标词之间的最大距离，3表示在目标词前看3-b个词，后面看b个词（b在0-3之间随机）。
+
+4.min_count是对词进行过滤，频率小于min-count的单词则会被忽视，默认值为5。
+
+5.negative和sample可根据训练结果进行微调，sample表示更高频率的词被随机下采样到所设置的阈值，默认值为1e-3。
