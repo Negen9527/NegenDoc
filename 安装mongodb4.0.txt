@@ -1,0 +1,39 @@
+创建mongodb4.0仓库
+sudo vi /etc/yum.repos.d/mongodb-org-4.0.repo
+
+将以下内容添加到文件中保存退出
+[mongodb-org-4.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.0/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
+
+yum安装
+sudo yum install -y mongodb-org
+
+安装完成修改配置文件
+vi /etc/mongod.conf
+
+把bindIP改成 0.0.0.0所有的机器都可以访问
+
+启动mogodb
+systemctl start mongod.service
+systemctl stop mongod.service //停止
+systemctl restart mongod.service //重启
+
+设置开机启动
+systemctl enable mongod
+
+测试连接
+mongo 127.0.0.1:27017
+
+
+ MongoDB默认将数据文件存放在/var/lib/momgo目录 ,
+
+默认日志文件存在/var/log/mongodb/mongod.log目录,
+
+如需修改可以在/etc/mongod.conf配置文件中指定目录
+
+
+dbPath: /var/lib/mongo  --->  dbPath: /data/mdb  

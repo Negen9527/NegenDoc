@@ -1,0 +1,122 @@
+===============安装java环境================
+yum -y list java*
+sudo yum -y install java-1.8.0-openjdk*
+
+======================================================
+su root 
+vi /etc/security/limits.conf
+# End of file
+elsearch       hard        nofile        65536 
+elsearch       soft        nofile        65536
+*               soft       nproc         4096
+*               hard       nproc         4096 
+
+vi /etc/sysctl.conf 
+备注：行末加上vm.max_map_count = 655360 ，esc +：wq保存退出
+
+
+==============安装elasticsearch===============
+sudo useradd elastic
+sudo passwd elastic
+
+sudo chown -R elastic:elastic /usr/local/elasticsearch-2.4.3/
+su elsearch
+
+ ./bin/elasticsearch  或   ./bin/elasticsearch（后台运行）
+
+
+i config/elasticsearch.yml
+
+network.host: 0.0.0.0
+
+
+
+激活x-pack
+curl -H "Content-Type:application/json" -XPOST  http://127.0.0.1:9200/_xpack/license/start_trial?acknowledge=true
+初始化密码
+bin/elasticsearch-setup-passwords interactive
+
+Enter password for [elastic]: idsbg123      
+Enter password for [kibana]: idsbg123.       
+Enter password for [logstash_system]: idsbg123.
+Enter password for [beats_system]: idsbg123.
+
+head访问地址
+addr：  http://116.6.230.44:9100/?auth_user=elastic&auth_password=idsbg123
+python连接es    client = Elasticsearch(['127.0.0.1'], http_auth=('elastic', 'idsbg123'), port=9200, timeout=50000)
+
+curl -XGET -u elastic:idsbg123. 'http://127.0.0.1:9201/_license'
+===============head安装================
+安装node
+	官网下载node-v8.11.4-linux-x64.tar.xz
+	xz -d node-v8.11.4-linux-x64.tar.xz
+	tar -xvf node-v8.11.4-linux-x64.tar.xz
+	sudo mv node-v8.11.4-linux-x64 /usr/local/share/
+	ln -s /usr/local/share/node-v8.11.4-linux-x64/bin/node /usr/bin/node   
+	ln -s /usr/local/share/node-v8.11.4-linux-x64/bin/npm /usr/bin/npm 
+
+	测试： node -v  |  npm -v
+	npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+
+
+
+====================================================上传license===================================================
+xpack.security.enabled: false
+curl -XPUT -u elastic:123456 'http://127.0.0.1:9200/_xpack/license' -H "Content-Type: application/json" -d @hu-negen-3ae73cb3-ccab-4aed-9f97-f467c0acd4a1-v5.json
+
+
+
+#(1)master节点生成证书
+[elk@node1 elasticsearch-6.2.4]$ pwd
+    /home/elk/elasticsearch-6.2.4
+[elk@node1 elasticsearch-6.2.4]$ bin/x-pack/certutil ca
+
+#这里需要设置密码,后边会用到
+[elk@node1 elasticsearch-6.2.4]$ bin/x-pack/certutil cert --ca elastic-stack-ca.p12
+
+[elk@node1 elasticsearch-6.2.4]$ mkdir config/certs
+[elk@node1 elasticsearch-6.2.4]$ cp elastic-certificates.p12 config/certs
+
+#(2)证书拷贝至所有elasticsearch节点
+[elk@node1 elasticsearch-6.2.4]$ scp -r config/certs/ elk@node2:~/elasticsearch-6.2.4/config/
+[elk@node1 elasticsearch-6.2.4]$ scp -r config/certs/ elk@node3:~/elasticsearch-6.2.4/config/
+[elk@node1 elasticsearch-6.2.4]$ scp -r config/certs/ elk@node4:~/elasticsearch-6.2.4/config/
+
+#(3)所有elasticsearch节点启用SSL
+elasticsearch.yml中增加配置
+#xpack.security.enabled: false
+xpack.security.transport.ssl.enabled: true
+xpack.security.transport.ssl.verification_mode: certificate
+xpack.security.transport.ssl.keystore.path: certs/elastic-certificates.p12
+xpack.security.transport.ssl.truststore.path: certs/elastic-certificates.p12
+
+#(4)所有elasticsearch节点和kibana节点将密码添加至elasticsearch-keystore
+#注意:这里输入的密码是生成证书时设置的密码
+[elk@node1 elasticsearch-6.2.4]$ bin/elasticsearch-keystore add xpack.security.transport.ssl.keystore.secure_password
+[elk@node1 elasticsearch-6.2.4]$ bin/elasticsearch-keystore add xpack.security.transport.ssl.truststore.secure_password
+=====================================================小问题=========================================================
+
+ 1.max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]
+修改/etc/security/limits.conf文件，添加或修改如下行：
+*        hard    nofile           65536
+*        soft    nofile           65536
+
+2.max virtual memory areas vm.max......
+修改 /etc/sysctl.conf 文件,添加如下行：
+vm.max_map_count=262144
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+ 

@@ -1,0 +1,64 @@
+MySQL根目录的bin目录下执行mysqld --remove      //卸载已安装的mysql
+
+配置my.ini
+################################配置信息开始########################################
+
+[mysql]
+
+# 设置mysql客户端默认字符集
+
+default-character-set=utf8 
+
+[mysqld]
+
+#设置3306端口
+
+port = 3306 
+
+# 设置mysql的安装目录
+
+basedir=D:\mysql-5.7.21-winx64
+# 设置mysql数据库的数据的存放目录
+
+datadir=D:\mysql-5.7.21-winx64\data
+
+# 允许最大连接数
+
+max_connections=200
+
+# 服务端使用的字符集默认为8比特编码的latin1字符集
+
+character-set-server=utf8
+
+# 创建新表时将使用的默认存储引擎
+
+default-storage-engine=INNODB
+
+###############################配置信息结束###########################################
+
+添加data目录
+
+到MySQL目录下执行初始化命令
+bin\mysqld --defaults-file=my.ini --initialize-insecure
+
+执行安装命令
+bin\mysqld --install
+
+启动MySQL服务
+net start mysql
+
+
+启动mysql
+mysql -u root -p
+直接回车，没有密码
+
+
+修改root密码
+use mysql;
+update user set authentication_string=password('123456')where user='root';
+flush privileges;
+exit;
+
+重启mysql
+net stop mysql
+net start mysql
