@@ -1,0 +1,37 @@
+https://elasticsearch.cn/article/https://www.easyice.cn/archives/261
+
+使用 Apache Spark 和 Elasticsearch 构建一个推荐系统
+https://github.com/IBM/elasticsearch-spark-recommender/blob/master/README-cn.md
+
+elasticsearch 集群启动流程
+https://www.easyice.cn/archives/261
+
+Elasticsearch 原理分析 
+https://mp.weixin.qq.com/s/_nhI-EEev9FJQhu7gcWdRQ
+
+用Python打造一个AI作家为你写诗
+https://blog.csdn.net/j2IaYU7Y/article/details/79694652
+
+基于LSTM三分类的文本情感分析
+https://www.jianshu.com/p/158c3f02a15b
+
+word2vec前世今生
+https://www.cnblogs.com/iloveai/p/word2vec.html
+
+Python第三方库wordcloud（词云）快速入门与进阶
+https://blog.csdn.net/qq_34337272/article/details/79552929
+
+Python第三方库jieba（中文分词）入门与进阶（官方文档）
+https://blog.csdn.net/qq_34337272/article/details/79554772
+
+数据库压测工具
+YCSB
+
+python开发大全、系列文章、精品教程
+https://blog.csdn.net/luanpeng825485697/article/details/78347433
+
+Elasticsearch之四种查询类型和搜索原理
+https://blog.csdn.net/wangyunpeng0319/article/details/78218332
+
+协同过滤推荐算法详解
+https://blog.csdn.net/xiaokang123456kao/article/details/74735992
