@@ -1,9 +1,13 @@
 下载mysql的RPM包
 wget https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm
+or
+wget http://dev.mysql.com/get/mysql57-community-release-el6-10.noarch.rpm
+
 
 安装mysql源
 sudo yum localinstall mysql80-community-release-el7-1.noarch.rpm
-
+or
+sudo yum localinstall mysql57-community-release-el6-10.noarch.rpm
 检查源是否安装成功
 yum repolist enabled | grep "mysql.*-community.*"
 
@@ -12,10 +16,15 @@ sudo yum install mysql-community-server
 
 启动mysql服务
 sudo systemctl start mysqld
+or
+sudo service mysqld start
 
 设置卡机启动
 sudo systemctl enable mysqld
 sudo systemctl daemon-reload
+
+or
+sudo chkconfig mysqld on
 
 修改root本地登录密码（mysql安装完成之后，在/var/log/mysqld.log文件中给root生成了一个默认密码）
 
@@ -29,6 +38,9 @@ mysql -u root -p
 修改密码策略
 set global validate_password.policy=0;
 set global validate_password.length=4;
+
+or
+set global validate_password_policy=0;
 ======================================================================
 修改密码
 ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass4!'; 
