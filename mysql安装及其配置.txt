@@ -62,3 +62,9 @@ exit;
 重启mysql
 net stop mysql
 net start mysql
+
+
+
+
+远程登陆
+./mysql -h 10.191.200.142 -u F7685212 -p
