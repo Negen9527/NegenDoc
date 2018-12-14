@@ -14,7 +14,9 @@ mv Python-3.7.0 /usr/local
 
 cd /usr/local/Python-3.7.0
 
-./configure --prefix=/usr/local/python3
+./configure --prefix=/usr/local/python3   
+or
+./configure --prefix=/usr/local/python3 --with-ssl
 
 sudo make 
 sudo make install
@@ -22,3 +24,7 @@ sudo make install
 sudo ln -s /usr/local/python3/bin/python3 /usr/bin/python3
 
 sudo ln -s /usr/local/python3/bin/pip3 /usr/bin/pip3
+
+
+sudo pip3 install --upgrade pip
+
