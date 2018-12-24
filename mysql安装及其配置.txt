@@ -68,3 +68,11 @@ net start mysql
 
 远程登陆
 ./mysql -h 10.191.200.142 -u F7685212 -p
+
+导出数据库
+./mysqldump -u root -p --databases <databaseName> > fileName.sql
+
+导入数据库
+./mysql -u root -p <databaseName> < fileName.sql
+
+

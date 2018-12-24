@@ -1,6 +1,7 @@
 vi /usr/libexec/urlgrabber-ext-down把头部的python改成和/usr/bin/yum中一样的
 
 sudo yum install libffi-devel -y
+sudo yum install sqlite-devel
 
 yum install -y openssl-devel openssl-static zlib-devel lzma tk-devel xz-devel bzip2-devel ncurses-devel gdbm-devel readline-devel sqlite-devel gcc libffi-devel
 
