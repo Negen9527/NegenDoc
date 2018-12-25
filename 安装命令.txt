@@ -1,0 +1,59 @@
+=========================================centos安装mantis=============================================
+1、安装EPEL repo并用最新的稳定版本更新系统。
+    yum install epel-release -y
+    yum update -y
+
+2、安装apache httpd：
+	yum install httpd -y  //安装httpd
+    yum -y install httpd php php-mysql php-pdo php-gd
+    systemctl start httpd    //启动httpd
+    systemctl enable httpd //配置自启动
+
+
+
+3、安装mariadb server：
+	yum install mariadb mariadb-server mariadb-devel -y
+	systemctl start mariadb
+	systemctl enable mariadb
+
+	初始化(mysql)：mysql_secure_installation 
+
+
+4、安装php7（5不支持）
+	rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+	sudo yum install php71w php71w-cli php71w-mysqli php71w-mbstring -y
+
+       
+
+5、创建数据库
+    mysql -u root -p
+    create database bugtracker;
+    exit;
+    导入数据库文件
+    mysql -u root -p bugtracker <  bugtracker.sql
+
+5、部署mantis
+	tar -xvf mantisBT.tar
+	sudo mv mantisBT /var/www/html
+	cd /var/www/html
+	sudo chmod -R 777 mantisBT
+
+	浏览器输入 ip/mantisBT  自动跳转至登陆页面
+	部署完成
+
+
+
+====================centos7的坑=========================
+vi /etc/selinux/config
+\#SELINUX=enforcing #注释掉
+\#SELINUXTYPE=targeted #注释掉
+SELINUX=disabled #增加
+
+setenforce 0 ##设置SELinux 成为permissive模式
+====================centos7的坑========================= 
+
+
+
+重启apache 
+systemctl restart httpd.service
+
