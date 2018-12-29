@@ -76,3 +76,10 @@ net start mysql
 ./mysql -u root -p <databaseName> < fileName.sql
 
 
+
+#开启远程登陆
+mysql -uroot -p
+输入密码登陆进去后，输入如下的语句：
+use mysql;
+####grant all privileges on *user* to 'user'@'ip' identified by 'password' with grant option;
+grant all privileges on *.* to 'user'@'%' identified by 'password' with grant option;
