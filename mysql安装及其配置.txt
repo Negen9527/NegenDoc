@@ -65,6 +65,13 @@ net start mysql
 
 
 
+调整字段位置
+alter table data modify sn varchar(32) AFTER skill_intent;
+
+新增字段
+ALTER TABLE xldata_v2.data ADD skill_name VARCHAR(50);
+ALTER TABLE xldata_v2.data ADD skill_intent VARCHAR(20);
+
 
 远程登陆
 ./mysql -h 10.191.200.142 -u F7685212 -p
