@@ -1,0 +1,51 @@
+=========================================apt-get可能遇到的问题============================
+
+
+
+
+E: Sub-process /usr/bin/dpkg returned an error code (1)错误解决
+在用apt－get安装软件时出现了类似于
+install-info: No dir file specified; try --help for more information.dpkg：处理 gettext (--configure)时出错： 子进程 post-installation script 返回了错误号 1 在处理时有错误发生：
+findutils
+E: Sub-process /usr/bin/dpkg returned an error code (1)
+办法如下：
+1.$ sudo mv /var/lib/dpkg/info /var/lib/dpkg/info_old //现将info文件夹更名
+2.$ sudo mkdir /var/lib/dpkg/info //再新建一个新的info文件夹
+3.$ sudo apt-get update,再$sudoapt-get -f install //不用解释了吧
+4.$ sudo mv /var/lib/dpkg/info/* /var/lib/dpkg/info_old //执行完上一步操作后会在新的info文件夹下生成一些文件，现将这些文件全部移到info_old文件夹下
+5.$ sudo rm -rf /var/lib/dpkg/info //把自己新建的info文件夹删掉
+6.$ sudo mv /var/lib/dpkg/info_old /var/lib/dpkg/info //把以前的info文件夹重新改回名字
+
+
+
+
+=========================================安装mysql========================================
+第一步：打开终端更新源列表项
+sudo apt-get update 
+
+第二步开始安装：
+sudo apt-get install mysql-server
+
+第三步：输入MySQL的用户root的密码
+说明：这个密码一定要记得。
+
+如果没有设置密码：
+　　mysql -u root
+
+　　mysql> use mysql;
+
+　　mysql> UPDATE user SET Password = PASSWORD('newpass') WHERE user = 'root';
+
+　　mysql> FLUSH PRIVILEGES;
+
+
+
+==========================================php7安装======================================
+使用ppa增加源:
+$ sudo apt-get install python-software-properties
+$ sudo add-apt-repository ppa:ondrej/php
+$ sudo apt-get update
+$ sudo apt-get install -y php7.0 php7.0-mysql php7.0-curl php7.0-json php7.0-cgi
+
+然后可以查看php版本:
+php -v
