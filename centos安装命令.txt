@@ -102,3 +102,15 @@ firewall-cmd --reload
 
 查看端口占用的pid
 lsof -i:port -t
+
+
+centos同步时间
+centos系统有时候时间是不同步的，但是只要我们是在国内下载，一般时区是亚洲/上海的，所以我们只要做这一步就行了
+
+1.使用yum 安装ntpdate
+
+yum install -y ntpdate
+
+2.然后ntpdate us.pool.ntp.org
+
+再date一下
